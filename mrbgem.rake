@@ -14,7 +14,7 @@ module MRuby
     unless method_defined?(:old_print_build_summary_for_require)
       alias_method :old_print_build_summary_for_require, :print_build_summary
     end
-    def print_build_summary 
+    def print_build_summary
       old_print_build_summary_for_require
 
       Rake::Task.tasks.each do |t|
@@ -37,7 +37,7 @@ end
 
 MRuby::Gem::Specification.new('mruby-require') do |spec|
   spec.license = 'MIT'
-  spec.authors = 'mattn'
+  spec.authors = %w(jethrodaniel mattn iij)
   ENV["MRUBY_REQUIRE"] = ""
 
   is_vc = ENV['OS'] == 'Windows_NT' && cc.command =~ /^cl(\.exe)?$/
@@ -48,7 +48,7 @@ MRuby::Gem::Specification.new('mruby-require') do |spec|
     @bundled = []
     next unless enable_gems?
     top_build_dir = build_dir
-    # Only gems included AFTER the mruby-require gem during compilation are 
+    # Only gems included AFTER the mruby-require gem during compilation are
     # compiled as separate objects.
     gems_uniq   = gems.uniq {|x| x.name}
 	mr_position = gems_uniq.find_index {|g| g.name == "mruby-require" }
