@@ -1,6 +1,9 @@
 # mruby-require
 
-mruby-require adds require support to mruby.
+![](https://github.com/jethrodaniel/mruby-require/workflows/ci/badge.svg)
+![](https://img.shields.io/github/license/jethrodaniel/mruby-require.svg)
+
+mruby-require adds require/load support to mruby.
 
 This is based on @mattn's [mruby-require](https://github.com/mattn/mruby-require), which is based on @iij's [mruby-require](https://github.com/iij/mruby-require), used in @iij's [fork of mruby](https://github.com/iij/mruby).
 
