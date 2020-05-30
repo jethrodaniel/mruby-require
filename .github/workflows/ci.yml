@@ -27,6 +27,6 @@ jobs:
         bundle update --bundler
         bundle install
 
-    - name: do it
+    - name: build and test
       run: |
         rake
