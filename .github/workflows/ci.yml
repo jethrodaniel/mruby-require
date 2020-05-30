@@ -23,8 +23,6 @@ jobs:
 
     - name: setup bundler, gems for building
       run: |
-        gem install bundler
-        bundle update --bundler
         bundle install
 
     - name: build and test
