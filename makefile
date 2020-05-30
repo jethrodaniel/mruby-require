@@ -1,0 +1,2 @@
+default:
+	bundle exec rake
