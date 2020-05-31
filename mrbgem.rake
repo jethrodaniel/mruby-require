@@ -10,4 +10,5 @@ MRuby::Gem::Specification.new("mruby-require") do |spec|
 
   spec.add_test_dependency "mruby-print"
   spec.add_test_dependency "mruby-env"
+  # spec.add_test_dependency "mruby-enumerator"
 end
