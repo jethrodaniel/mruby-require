@@ -17,7 +17,7 @@ assert 'Kernel#load' do
     end
 
     assert_equal load("test/examples/a.rb"), true
-    assert_equal load("test/examples/b.rb"), true
+    assert_equal load("test/examples/b"), true
     assert_equal load("test/examples/c.rb"), true
     assert_equal load("test/examples/d.rb"), true
 

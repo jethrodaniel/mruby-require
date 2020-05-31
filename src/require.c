@@ -31,7 +31,7 @@ load_rb_file(mrb_state *mrb, mrb_value filepath)
 }
 
 mrb_value
-mrb_f_load(mrb_state *mrb, mrb_value self)
+mrb_load_filename(mrb_state *mrb, mrb_value self)
 {
   mrb_value filename;
 
@@ -50,7 +50,7 @@ mrb_mruby_require_gem_init(mrb_state* mrb)
   struct RClass *kernel;
   kernel = mrb->kernel_module;
 
-  mrb_define_method(mrb, kernel, "__load__", mrb_f_load, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, kernel, "__load_filename__", mrb_load_filename, MRB_ARGS_REQ(1));
 }
 
 void
