@@ -16,10 +16,17 @@ assert 'Kernel#load' do
       assert_equal Object.const_defined?(const), false
     end
 
+    begin
+      load("test/examples/a")
+    rescue LoadError => e
+      assert_equal "failed to load 'test/examples/a.rb'", e.message
+    end
+
+    $: << File.expand_path(File.dirname(__FILE__))
     assert_equal load("test/examples/a.rb"), true
     assert_equal load("test/examples/b"), true
-    assert_equal load("test/examples/c.rb"), true
-    assert_equal load("test/examples/d.rb"), true
+    assert_equal load("test/examples/c"), true
+    assert_equal load("test/examples/d"), true
 
     begin
       load("test/examples/absent.rb")
@@ -27,7 +34,6 @@ assert 'Kernel#load' do
       assert_equal "failed to load 'test/examples/absent.rb'", e.message
     end
 
-    # assert_equal load("test/examples/b"), true
     %i[A B C D].each do |const|
       assert_equal Object.const_defined?(const), true
     end
@@ -46,7 +52,9 @@ assert '$"  /  $LOADED_FEATURES' do
     assert_equal [], $"
     assert_equal [], $LOADED_FEATURES
 
-    load "test/examples/e.rb"
+    $: << File.expand_path(File.dirname(__FILE__))
+
+    load "test/examples/e"
 
     assert_equal ["test/examples/e.rb"], $"
     assert_equal ["test/examples/e.rb"], $LOADED_FEATURES
