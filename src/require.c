@@ -5,7 +5,7 @@
 #include <mruby/compile.h>
 #include <mruby/string.h>
 
-static void
+static int
 load_rb_file(mrb_state *mrb, mrb_value filepath)
 {
   FILE *fp;
@@ -16,7 +16,7 @@ load_rb_file(mrb_state *mrb, mrb_value filepath)
   fp = fopen((const char*)fpath, "r");
   if (fp == NULL) {
     fprintf(stderr, "cannot load '%s'", fpath);
-    return;
+    return 0;
   }
 
   mrbc_ctx = mrbc_context_new(mrb);
@@ -27,14 +27,20 @@ load_rb_file(mrb_state *mrb, mrb_value filepath)
 
   mrb_gc_arena_restore(mrb, ai);
   mrbc_context_free(mrb, mrbc_ctx);
+
+  return 1;
 }
 
 
 mrb_value
 mrb_load(mrb_state *mrb, mrb_value filename)
 {
-  load_rb_file(mrb, filename);
-  return mrb_true_value();
+  int result = load_rb_file(mrb, filename);
+
+  if (result)
+    return mrb_true_value();
+  else
+    return mrb_nil_value();
 }
 
 mrb_value
