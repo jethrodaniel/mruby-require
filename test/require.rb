@@ -63,8 +63,8 @@ end
 
 assert '$:  /  $LOAD_PATH' do
   sandbox_load_env do
-    assert_equal ["foo", "bar"], $:
-    assert_equal ["foo", "bar"], $LOAD_PATH
+    assert_equal ["foo", "bar", "baz"], $:
+    assert_equal ["foo", "bar", "baz"], $LOAD_PATH
   end
 end
 

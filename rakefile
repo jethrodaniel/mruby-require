@@ -30,7 +30,7 @@ task :mruby do
 end
 
 task :test => :mruby do
-  sh "MRBLIB=foo MRBGEMS_ROOT=bar ./third_party/mruby/bin/mrbtest"
+  sh "MRBLIB=foo:bar MRBGEMS_ROOT=baz ./third_party/mruby/bin/mrbtest"
 end
 
 task :default => %i[mruby test]

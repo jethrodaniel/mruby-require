@@ -1,7 +1,14 @@
 # wtf
 
 $: = []
-$: << ENV["MRBLIB"]       if ENV["MRBLIB"]
+if ENV["MRBLIB"]
+  lib = ENV["MRBLIB"]
+  if lib.include? ":"
+    $: += lib.split ":"
+  else
+    $: << lib
+  end
+end
 $: << ENV["MRBGEMS_ROOT"] if ENV["MRBGEMS_ROOT"]
 $LOAD_PATH = $:
 
