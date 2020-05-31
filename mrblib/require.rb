@@ -8,12 +8,20 @@ $LOAD_PATH = $:
 $" = []
 $LOADED_FEATURES = $"
 
+class LoadError < StandardError
+end
+
 module Kernel
   def load file
     $" << file unless $".include?(file)
 
-    # file += ".rb" unless file[file.size - 4..file.size - 1] == ".rb"
-    puts file
-    __load__ file
+    case __load__(file)
+    when 0
+      true
+    when 1
+      raise LoadError, "failed to load '#{file}'"
+    else
+      $stderr.puts "<<<< #{t}"
+    end
   end
 end

@@ -4,6 +4,7 @@
 #include <mruby.h>
 #include <mruby/compile.h>
 #include <mruby/string.h>
+#include <mruby/numeric.h>
 
 static int
 load_rb_file(mrb_state *mrb, mrb_value filepath)
@@ -14,10 +15,8 @@ load_rb_file(mrb_state *mrb, mrb_value filepath)
   int ai = mrb_gc_arena_save(mrb);
 
   fp = fopen((const char*)fpath, "r");
-  if (fp == NULL) {
-    fprintf(stderr, "cannot load '%s'", fpath);
-    return 0;
-  }
+  if (fp == NULL)
+    return 1;
 
   mrbc_ctx = mrbc_context_new(mrb);
 
@@ -28,19 +27,7 @@ load_rb_file(mrb_state *mrb, mrb_value filepath)
   mrb_gc_arena_restore(mrb, ai);
   mrbc_context_free(mrb, mrbc_ctx);
 
-  return 1;
-}
-
-
-mrb_value
-mrb_load(mrb_state *mrb, mrb_value filename)
-{
-  int result = load_rb_file(mrb, filename);
-
-  if (result)
-    return mrb_true_value();
-  else
-    return mrb_nil_value();
+  return 0;
 }
 
 mrb_value
@@ -54,7 +41,7 @@ mrb_f_load(mrb_state *mrb, mrb_value self)
     return mrb_nil_value();
   }
 
-  return mrb_load(mrb, filename);
+  return mrb_int_value(mrb, load_rb_file(mrb, filename));
 }
 
 void
@@ -63,28 +50,10 @@ mrb_mruby_require_gem_init(mrb_state* mrb)
   struct RClass *kernel;
   kernel = mrb->kernel_module;
 
-  /* struct RClass *load_error; */
-
   mrb_define_method(mrb, kernel, "__load__", mrb_f_load, MRB_ARGS_REQ(1));
-
-  /* $: $LOAD_PATH */
-  /* $" $LOADED_FEATURES */
-  /* mrb_gv_set(mrb, mrb_intern_cstr(mrb, "$:"), mrb_init_load_path(mrb)); */
-  /* mrb_gv_set(mrb, mrb_intern_cstr(mrb, "$\""), mrb_ary_new(mrb)); */
 }
 
 void
 mrb_mruby_require_gem_final(mrb_state* mrb)
 {
-  /* mrb_value loaded_files = mrb_gv_get(mrb, mrb_intern_cstr(mrb, "$\"")); */
-  /* int i; */
-  /* for (i = 0; i < RARRAY_LEN(loaded_files); i++) { */
-  /*   mrb_value f = mrb_ary_entry(loaded_files, i); */
-  /*   const char* ext = strrchr(RSTRING_CSTR(mrb, f), '.'); */
-  /*   if (ext && strcmp(ext, ".so") == 0) { */
-  /*     unload_so_file(mrb, f); */
-  /*   } */
-  /* } */
 }
-
-
